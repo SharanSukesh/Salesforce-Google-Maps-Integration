@@ -8,7 +8,7 @@
 </style>
     
 <!--script src="https://maps.googleapis.com/maps/api/js?"></script-->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOUCD3-V7q4DZu9ESKIz19q0mW-Fwq70U&callback=initialize" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YourGoogleKey&callback=initialize" type="text/javascript"></script>
 <script>
     
 var map;
