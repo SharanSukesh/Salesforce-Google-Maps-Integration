@@ -1,0 +1,70 @@
+<apex:page sidebar="false" showheader="false">
+
+<head>
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0; padding: 0 }
+  #map-canvas { height: 100% }
+</style>
+    
+<!--script src="https://maps.googleapis.com/maps/api/js?"></script-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOUCD3-V7q4DZu9ESKIz19q0mW-Fwq70U&callback=initialize" type="text/javascript"></script>
+<script>
+    
+var map;
+    //var lexOrigin = "https://{!$CurrentPage.parameters.lcHost}";
+    var lexOrigin = "https://edistribuzione--four420.lightning.force.com";
+function initialize() {
+    var mapOptions = {
+        center: new google.maps.LatLng(40.84574556479402, 14.093345403671265),
+        zoom: 15
+    };
+    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    map.addListener('click', function(e) {
+    placeMarkerAndPanTo(e.latLng, map);
+    console.log("****Coordinates"+e.latLng);
+        //alert("****Coordinates"+e.latLng);
+        //alert("type of latLng"+typeof(e.latLng));
+     var latLng = e.latLng;
+     var latLngStr = latLng.toString();
+        // alert('LatLang String'+typeof(latLngStr));
+    var message = {
+            "state" : "SENT",
+            "latLng" : latLngStr,
+    } ;
+     sendtoLC(message);     
+  });
+}
+    
+function sendtoLC(message){
+    //alert('inside sendtoLC'+lexOrigin);
+	if(typeof(lexOrigin) != "undefined"){
+        // alert('inside post message');
+            parent.postMessage(message, lexOrigin);
+    }    
+}
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+ 
+    
+    
+ function placeMarkerAndPanTo(latLng, map) {
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map
+  });
+  map.panTo(latLng);
+}
+    
+   
+
+</script>
+</head>
+<body>
+  <div id="map-canvas"/>
+  <div id="output">
+    <apex:outputText style="font-style:italic" value="This is {0} text with {1}."/>
+      </div>
+</body>
+
+</apex:page>

@@ -1,0 +1,14 @@
+({ 
+ /***********************************************************************************************
+ * Author : Sharan Sukesh
+ * Method Name : doinit
+ * Description : This method is called everytime the component is initialized or reinitialized
+ ************************************************************************************************/
+	doInit : function(component, event, helper) {
+       //Handles the messages passed from the VF page
+       alert("Inside file init");
+            helper.messageHandler(component,event,helper);
+       
+    },
+    
+})

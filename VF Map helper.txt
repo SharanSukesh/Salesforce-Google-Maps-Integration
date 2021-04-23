@@ -1,0 +1,50 @@
+HELPER
+({
+    
+    /***********************************************************************************************
+ * Author : Sharan Sukesh
+ * Method Name : messageHandler
+ * Description : This method is used to handle the messages recieved from the VF page based on 
+ * the state of the message that is sent and perform the appropriate logic.
+ ************************************************************************************************/    
+    messageHandler : function(component,event,helper){
+        //Send LC Host as parameter to VF page so VF page can send message to LC;
+        //LC Host is passed to the URL as a parameter to get the host so the VF page can communicate using messages
+        debugger;
+        //alert("window.location.hostname"+window.location.hostname);
+        //component.set('v.lcHost', window.location.hostname);
+        component.set('v.lcHost', "edistribuzione--four420.lightning.force.com");
+        alert("lcHost window"+component.get("v.lcHost"));
+       /*var recType = component.get("v.recordType");
+        component.set('v.recordTypeName',recType.Name);
+        var recTypeName=component.get("v.recordTypeName"); */
+        var orgURL = "https://edistribuzione--four420--c.cs86.visual.force.com/apex/googleMaps_page?";
+        var frameSrc = orgURL+ '&lcHost=' + component.get('v.lcHost');
+        alert(frameSrc);
+        component.set('v.frameSrc', frameSrc);
+        
+        //Listener used to listen for messages that are sent from the VF page at different points during the file upload process
+        window.addEventListener("message", function(event) {
+            // Handle the message based on the state attribute passed from the VF page
+            // This block is executed every time the component is loaded or gets initialized.    
+            if(event.data.state === "SENT"){
+                //Set vfHost which will be used later to send message to the VF page
+                alert("inside lightning component"+JSON.stringify(event.data.latLng));
+                component.set('v.vfHost', event.data.vfHost);
+            }
+            
+        }, false);
+    },
+    
+    
+    // Throws the error as toast message as part of request field validation checks.
+    throwErrorMsg : function(component,errMsg,helper) 
+    { 
+        var resultsToast = $A.get("e.force:showToast");
+        if(resultsToast)
+        {    
+            resultsToast.setParams({"title": "Errore","message": errMsg,"type":"error","mode":"pester"});
+            resultsToast.fire();
+        }            
+    },
+})
